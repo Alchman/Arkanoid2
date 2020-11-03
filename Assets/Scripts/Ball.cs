@@ -42,15 +42,25 @@ public class Ball : MonoBehaviour
         }
 
         //print(rb.velocity);
+        //print(rb.velocity.magnitude);
     }
 
     private void StartBall()
     {
-        Vector2 force = new Vector2(1, 1) * speed;
-        rb.AddForce(force);
+        float randomX = Random.Range(-5f, 5f);
+        Vector2 direction = new Vector2(randomX, 1);
+        Vector2 force = direction.normalized * speed;
+
+        //rb.AddForce(force);
+        rb.velocity = force;
+
         isStarted = true;
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(transform.position, rb.velocity);
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

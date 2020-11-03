@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Pad : MonoBehaviour
 {
+    public float maxX;
+
     float yPosition;
 
     // Start is called before the first frame update
@@ -24,6 +26,9 @@ public class Pad : MonoBehaviour
         //padNewPosition.y = yPosition;
 
         Vector3 padNewPosition = new Vector3(mouseWorldPosition.x, yPosition, 0);
+
+        padNewPosition.x = Mathf.Clamp(padNewPosition.x, -maxX, maxX);
+
         transform.position = padNewPosition;
     }
 }
