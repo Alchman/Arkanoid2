@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be239e42fa2dffd4eb1eeeabd5c0ea0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoplay: 1
   maxX: 7.3
 --- !u!60 &1377121209016862029
 PolygonCollider2D:

@@ -7,14 +7,22 @@ public class Ball : MonoBehaviour
     public float speed;
 
     public Rigidbody2D rb;
-    public Pad pad;
+    
+    Pad pad;
 
     bool isStarted;
     float yPosition;
 
     void Start()
     {
+        pad = FindObjectOfType<Pad>();
+
         yPosition = transform.position.y;
+
+        if (pad.autoplay)
+        {
+            StartBall();
+        }
     }
 
     private void Update()
@@ -47,7 +55,7 @@ public class Ball : MonoBehaviour
 
     private void StartBall()
     {
-        float randomX = Random.Range(-5f, 5f);
+        float randomX = Random.Range(0, 0);
         Vector2 direction = new Vector2(randomX, 1);
         Vector2 force = direction.normalized * speed;
 
