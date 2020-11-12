@@ -6,9 +6,13 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public Text scoreText;
+    public GameObject panelPause;
 
-    bool pauseActive;
+    [HideInInspector]
+    public bool pauseActive;
+
     int score;
+    int lifes;
 
     private void Awake()
     {
@@ -18,6 +22,7 @@ public class GameManager : MonoBehaviour
             if (gameManagers[i].gameObject != gameObject)
             {
                 Destroy(gameObject);
+                gameObject.SetActive(false);
                 break;
             }
 
@@ -37,6 +42,18 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
     }
 
+    public void LoseLife()
+    {
+        lifes--;
+
+        if (lifes <= 0)
+        {
+            //TODO restart
+        }
+
+
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -53,6 +70,7 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 0f;
                 pauseActive = true;
             }
+            panelPause.SetActive(pauseActive);
         }
     }
 }

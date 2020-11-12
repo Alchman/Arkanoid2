@@ -105,13 +105,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6221673643966473162}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.13, y: 1, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.008726465, w: 0.999962}
+  m_LocalPosition: {x: -9.07, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6221673644492082514}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1}
 --- !u!61 &6221673643966473164
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -162,13 +162,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6221673644287818468}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.65, y: 1, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.008726558, w: 0.999962}
+  m_LocalPosition: {x: 9.55, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6221673644492082514}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1}
 --- !u!61 &6221673644287818470
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -296,6 +296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6221673644948165323}
   - component: {fileID: 6221673644948165324}
+  - component: {fileID: 1372092415054438943}
   m_Layer: 0
   m_Name: Bottom
   m_TagString: Untagged
@@ -327,7 +328,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.116363525, y: 0.9107113}
@@ -343,6 +344,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 21.179363, y: 1.1785774}
   m_EdgeRadius: 0
+--- !u!114 &1372092415054438943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6221673644948165322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 557c7b89bf73df546a26550177d71610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6221673645030604965
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,7 +371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6221673645030604966
 Transform:
   m_ObjectHideFlags: 0

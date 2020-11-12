@@ -25,6 +25,12 @@ public class Ball : MonoBehaviour
         }
     }
 
+    public void Restart()
+    {
+        isStarted = false;
+        rb.velocity = Vector2.zero; //new Vector2(0, 0);
+    }
+
     private void Update()
     {
         if (isStarted)
@@ -50,7 +56,7 @@ public class Ball : MonoBehaviour
         }
 
         //print(rb.velocity);
-        //print(rb.velocity.magnitude);
+        print(rb.velocity.magnitude);
     }
 
     private void StartBall()
