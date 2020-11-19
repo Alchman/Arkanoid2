@@ -11,13 +11,28 @@ public class Ball : MonoBehaviour
     Pad pad;
 
     bool isStarted;
+    bool isMagnetActive;
+
     float yPosition;
+    float xDelta;
+
+    public void ActivateMagnet()
+    {
+        isMagnetActive = true;
+    }
+
+    public void MultiplySpeed(float speedKoef)
+    {
+        speed *= speedKoef;
+        rb.velocity = rb.velocity.normalized * speed;
+    }
 
     void Start()
     {
         pad = FindObjectOfType<Pad>();
 
         yPosition = transform.position.y;
+        xDelta = transform.position.x - pad.transform.position.x;
 
         if (pad.autoplay)
         {
@@ -29,6 +44,21 @@ public class Ball : MonoBehaviour
     {
         isStarted = false;
         rb.velocity = Vector2.zero; //new Vector2(0, 0);
+    }
+
+    public void Duplicate()
+    {
+        Ball originalBall = this;
+
+        Ball newBall = Instantiate(originalBall);
+
+        newBall.speed = speed;
+        newBall.StartBall();
+
+        if (isMagnetActive)
+        {
+            newBall.ActivateMagnet();
+        }
     }
 
     private void Update()
@@ -45,7 +75,7 @@ public class Ball : MonoBehaviour
             //двигаться вместе с платформой
             Vector3 padPosition = pad.transform.position; //позиция платформы
 
-            Vector3 ballNewPosition = new Vector3(padPosition.x, yPosition, 0); //новая позиция мяча
+            Vector3 ballNewPosition = new Vector3(padPosition.x + xDelta, yPosition, 0); //новая позиция мяча
             transform.position = ballNewPosition;
 
             //проверить левую кнопку мыши
@@ -56,7 +86,7 @@ public class Ball : MonoBehaviour
         }
 
         //print(rb.velocity);
-        print(rb.velocity.magnitude);
+        //print(rb.velocity.magnitude);
     }
 
     private void StartBall()
@@ -65,8 +95,8 @@ public class Ball : MonoBehaviour
         Vector2 direction = new Vector2(randomX, 1);
         Vector2 force = direction.normalized * speed;
 
-        //rb.AddForce(force);
         rb.velocity = force;
+        //rb.AddForce(force);
 
         isStarted = true;
     }
@@ -78,6 +108,12 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (isMagnetActive && collision.gameObject.CompareTag("Pad"))
+        {
+            yPosition = transform.position.y;
+            xDelta = transform.position.x - pad.transform.position.x;
+            Restart();
+        }
         //print("Collision!");
     }
 
