@@ -5,14 +5,22 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    public static string keyBestScore = "bestRecord";
+
     public Text scoreText;
     public GameObject panelPause;
+
+    [Header("Sounds")]
+    public AudioClip sndPauseActivate;
+    public AudioClip sndPauseDeactivate;
 
     [HideInInspector]
     public bool pauseActive;
 
     int score;
     int lifes;
+
+    AudioManager audioManager;
 
     private void Awake()
     {
@@ -27,6 +35,8 @@ public class GameManager : MonoBehaviour
             }
 
         }
+
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     private void Start()
@@ -40,6 +50,16 @@ public class GameManager : MonoBehaviour
     {
         score += addScore;
         scoreText.text = score.ToString();
+
+    }
+
+    public void SaveBestScore()
+    {
+        int oldBestScore = PlayerPrefs.GetInt(keyBestScore);
+        if(score > oldBestScore)
+        {
+            PlayerPrefs.SetInt(keyBestScore, score);
+        }
     }
 
     public void LoseLife()
@@ -63,12 +83,16 @@ public class GameManager : MonoBehaviour
                 //пауза уже активна - вернуть время в 1
                 Time.timeScale = 1f;
                 pauseActive = false;
+
+                audioManager.PlaySound(sndPauseDeactivate);
             }
             else
             {
                 //включить паузу
                 Time.timeScale = 0f;
                 pauseActive = true;
+
+                audioManager.PlaySound(sndPauseActivate);
             }
             panelPause.SetActive(pauseActive);
         }

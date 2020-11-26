@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3011456072847842961}
   m_Layer: 8
   m_Name: Block
-  m_TagString: Untagged
+  m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,3 +129,4 @@ MonoBehaviour:
     type: 3}
   particleEffectPrefab: {fileID: 1247311384876784, guid: 4adffb0018aeda44e9263f901167af1f,
     type: 3}
+  sndDestroyBlock: {fileID: 8300000, guid: f01ac1034a37287469c1532ea823e0ca, type: 3}

@@ -7,11 +7,6 @@ public class LevelManager : MonoBehaviour
 {
     public int blocksCount;
 
-    //private void Start()
-    //{
-    //    Block[] allBlocks = FindObjectsOfType<Block>();
-    //    blocksCount = allBlocks.Length;
-    //}
 
     public void BlockCreated()
     {
@@ -23,8 +18,12 @@ public class LevelManager : MonoBehaviour
         blocksCount--;
         if (blocksCount <= 0)
         {
+            //УРОВЕНЬ ПРОЙДЕН
             int index = SceneManager.GetActiveScene().buildIndex;
             SceneManager.LoadScene(index + 1);
+
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            gameManager.SaveBestScore();
         }
     }
 }

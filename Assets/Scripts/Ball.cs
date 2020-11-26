@@ -4,21 +4,42 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public float explosionRadius;
     public float speed;
 
-    public Rigidbody2D rb;
+    public GameObject explosionEffect;
+    public AudioClip explosionModeSound;
     
+    Rigidbody2D rb;
+    AudioSource audioSource;
+
     Pad pad;
 
     bool isStarted;
     bool isMagnetActive;
+    bool isExplosive; //активен ли режим взрыва
 
     float yPosition;
     float xDelta;
 
+    private void Awake()
+    {
+        //Поиск компонентов на этом же GameObject лучше делать в Awake
+        rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
     public void ActivateMagnet()
     {
         isMagnetActive = true;
+    }
+
+    public void ActivateExplosion()
+    {
+        isExplosive = true;
+        explosionEffect.SetActive(true);
+        audioSource.clip = explosionModeSound;
+        //TODO поменять цвет trail и спрайт
     }
 
     public void MultiplySpeed(float speedKoef)
@@ -58,6 +79,11 @@ public class Ball : MonoBehaviour
         if (isMagnetActive)
         {
             newBall.ActivateMagnet();
+        }
+
+        if (isExplosive)
+        {
+            newBall.ActivateExplosion();
         }
     }
 
@@ -103,18 +129,54 @@ public class Ball : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawRay(transform.position, rb.velocity);
+        if (Application.isPlaying)
+        {
+            Gizmos.DrawRay(transform.position, rb.velocity);
+        }
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        audioSource.Play();
+
         if (isMagnetActive && collision.gameObject.CompareTag("Pad"))
         {
             yPosition = transform.position.y;
             xDelta = transform.position.x - pad.transform.position.x;
             Restart();
         }
-        //print("Collision!");
+
+        if (isExplosive && collision.gameObject.CompareTag("Block"))
+        {
+            Explode();
+        }
+    }
+
+    private void Explode()
+    {
+        int layerMask = LayerMask.GetMask("Block");
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(
+            transform.position, 
+            explosionRadius, 
+            layerMask);
+
+        foreach (Collider2D col in colliders)
+        {
+            Block block = col.GetComponent<Block>(); //Пытаемся найти у коллайдера скрипт Block
+            if (block == null)
+            {
+                //объект без скрипта Block - просто уничтожаем
+                Destroy(col.gameObject);
+            }
+            else
+            {
+                //Объект со скриптом Block
+                block.DestroyBlock();
+            }
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -131,4 +193,5 @@ public class Ball : MonoBehaviour
     {
         //print("Trigger exit");
     }
+
 }
