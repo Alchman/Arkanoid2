@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     public Text scoreText;
     public GameObject panelPause;
+    public List<GameObject> lifeItems;
 
     [Header("Sounds")]
     public AudioClip sndPauseActivate;
@@ -17,8 +18,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public bool pauseActive;
 
+    public int lifes;
+
     int score;
-    int lifes;
 
     AudioManager audioManager;
 
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
         scoreText.text = "000";
 
         DontDestroyOnLoad(gameObject);
+        UpdateLifes();
     }
 
     public void AddScore(int addScore)
@@ -62,16 +65,41 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void AddLife()
+    {
+        if (lifes >= lifeItems.Count)
+        {
+            return;
+        }
+
+        lifes++;
+        UpdateLifes();
+    }
+
     public void LoseLife()
     {
         lifes--;
+        UpdateLifes();
 
         if (lifes <= 0)
         {
             //TODO restart
         }
+    }
 
-
+    private void UpdateLifes()
+    {
+        for (int index = 0; index < lifeItems.Count; index++)
+        {
+            if (index < lifes)
+            {
+                lifeItems[index].SetActive(true);
+            }
+            else
+            {
+                lifeItems[index].SetActive(false);
+            }
+        }
     }
 
     private void Update()
@@ -95,6 +123,11 @@ public class GameManager : MonoBehaviour
                 audioManager.PlaySound(sndPauseActivate);
             }
             panelPause.SetActive(pauseActive);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            AddLife();
         }
     }
 }

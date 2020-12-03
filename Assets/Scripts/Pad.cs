@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Pad : MonoBehaviour
 {
+    public float padSpeed = 1f;
+
+    public bool keyboard;
     public bool autoplay;
     public float maxX;
 
@@ -32,14 +35,34 @@ public class Pad : MonoBehaviour
             return;
         }
 
+        Movement();
+    }
+
+    private void Movement()
+    {
         Vector3 padNewPosition;
         if (autoplay)
         {
             Vector3 ballPos = ball.transform.position;
             padNewPosition = new Vector3(ballPos.x, yPosition, 0);
         }
+        if (keyboard)
+        {
+            //keyaboard movement
+            padNewPosition = transform.position;
+
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                padNewPosition.x += padSpeed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                padNewPosition.x -= padSpeed * Time.deltaTime;
+            }
+        }
         else
         {
+            //mouse movement
             Vector3 mousePixelPosition = Input.mousePosition; //позиция мыши в координатах экрана
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePixelPosition); //позиция мыши в координатах игрового мира
 
